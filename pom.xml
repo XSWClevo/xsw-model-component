@@ -3,6 +3,10 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <groupId>com.xshiwu</groupId>
+    <artifactId>xsw-model-component</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -10,10 +14,6 @@
         <version>2.7.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-    <groupId>com.xshiwu</groupId>
-    <artifactId>xsw-model-component</artifactId>
-    <version>${revision}</version>
 
     <modules>
         <module>search-module</module>
