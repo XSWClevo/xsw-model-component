@@ -1,13 +1,11 @@
 package com.xshiwu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.xshiwu.annotation.AuthCheck;
 import com.xshiwu.common.BaseResponse;
 import com.xshiwu.common.DeleteRequest;
 import com.xshiwu.common.ErrorCode;
 import com.xshiwu.common.ResultUtils;
 import com.xshiwu.config.WxOpenConfig;
-import com.xshiwu.constant.UserConstant;
 import com.xshiwu.exception.BusinessException;
 import com.xshiwu.exception.ThrowUtils;
 import com.xshiwu.model.dto.user.UserAddRequest;
@@ -19,11 +17,13 @@ import com.xshiwu.model.dto.user.UserUpdateRequest;
 import com.xshiwu.model.entity.User;
 import com.xshiwu.model.vo.LoginUserVO;
 import com.xshiwu.model.vo.UserVO;
-import com.xshiwu.service.UserService;
+
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.xshiwu.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import me.chanjar.weixin.common.bean.oauth2.WxOAuth2AccessToken;
@@ -56,9 +56,6 @@ public class UserController {
 
     /**
      * 用户注册
-     *
-     * @param userRegisterRequest
-     * @return
      */
     @PostMapping("/register")
     public BaseResponse<Long> userRegister(@RequestBody UserRegisterRequest userRegisterRequest) {
@@ -158,7 +155,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/add")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Long> addUser(@RequestBody UserAddRequest userAddRequest, HttpServletRequest request) {
         if (userAddRequest == null) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -178,7 +174,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/delete")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> deleteUser(@RequestBody DeleteRequest deleteRequest, HttpServletRequest request) {
         if (deleteRequest == null || deleteRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -195,7 +190,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/update")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updateUser(@RequestBody UserUpdateRequest userUpdateRequest,
             HttpServletRequest request) {
         if (userUpdateRequest == null || userUpdateRequest.getId() == null) {
@@ -216,7 +210,6 @@ public class UserController {
      * @return
      */
     @GetMapping("/get")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<User> getUserById(long id, HttpServletRequest request) {
         if (id <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);
@@ -248,7 +241,6 @@ public class UserController {
      * @return
      */
     @PostMapping("/list/page")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Page<User>> listUserByPage(@RequestBody UserQueryRequest userQueryRequest,
             HttpServletRequest request) {
         long current = userQueryRequest.getCurrent();

@@ -1,7 +1,6 @@
 package com.xshiwu.common;
 
 import java.io.Serializable;
-import lombok.Data;
 
 /**
  * 通用返回类
@@ -10,7 +9,6 @@ import lombok.Data;
  * @author <a href="https://github.com/liyupi">程序员鱼皮</a>
  * @from <a href="https://yupi.icu">编程导航知识星球</a>
  */
-@Data
 public class BaseResponse<T> implements Serializable {
 
     private int code;
@@ -31,5 +29,29 @@ public class BaseResponse<T> implements Serializable {
 
     public BaseResponse(ErrorCode errorCode) {
         this(errorCode.getCode(), null, errorCode.getMessage());
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

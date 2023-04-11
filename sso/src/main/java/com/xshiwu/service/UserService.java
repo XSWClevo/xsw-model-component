@@ -7,9 +7,10 @@ import com.xshiwu.model.dto.user.UserQueryRequest;
 import com.xshiwu.model.entity.User;
 import com.xshiwu.model.vo.LoginUserVO;
 import com.xshiwu.model.vo.UserVO;
-import java.util.List;
-import javax.servlet.http.HttpServletRequest;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * 用户服务

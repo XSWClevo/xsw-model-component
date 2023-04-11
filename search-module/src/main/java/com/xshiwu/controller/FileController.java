@@ -10,11 +10,13 @@ import com.xshiwu.manager.CosManager;
 import com.xshiwu.model.dto.file.UploadFileRequest;
 import com.xshiwu.model.entity.User;
 import com.xshiwu.model.enums.FileUploadBizEnum;
-import com.xshiwu.service.UserService;
+
 import java.io.File;
 import java.util.Arrays;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.xshiwu.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.web.bind.annotation.PostMapping;

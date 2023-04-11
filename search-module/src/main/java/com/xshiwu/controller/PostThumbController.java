@@ -7,9 +7,11 @@ import com.xshiwu.exception.BusinessException;
 import com.xshiwu.model.dto.postthumb.PostThumbAddRequest;
 import com.xshiwu.model.entity.User;
 import com.xshiwu.service.PostThumbService;
-import com.xshiwu.service.UserService;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.xshiwu.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

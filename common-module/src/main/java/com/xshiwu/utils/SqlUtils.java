@@ -1,7 +1,6 @@
 package com.xshiwu.utils;
 
-import org.apache.commons.lang3.StringUtils;
-
+import cn.hutool.core.util.StrUtil;
 /**
  * SQL 工具
  */
@@ -13,9 +12,9 @@ public class SqlUtils {
      * @return
      */
     public static boolean validSortField(String sortField) {
-        if (StringUtils.isBlank(sortField)) {
+        if (StrUtil.isBlank(sortField)) {
             return false;
         }
-        return !StringUtils.containsAny(sortField, "=", "(", ")", " ");
+        return !StrUtil.containsAny(sortField, "=", "(", ")", " ");
     }
 }

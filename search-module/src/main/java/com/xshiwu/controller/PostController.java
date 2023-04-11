@@ -2,12 +2,10 @@ package com.xshiwu.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
-import com.xshiwu.annotation.AuthCheck;
 import com.xshiwu.common.BaseResponse;
 import com.xshiwu.common.DeleteRequest;
 import com.xshiwu.common.ErrorCode;
 import com.xshiwu.common.ResultUtils;
-import com.xshiwu.constant.UserConstant;
 import com.xshiwu.exception.BusinessException;
 import com.xshiwu.exception.ThrowUtils;
 import com.xshiwu.model.dto.post.PostAddRequest;
@@ -18,10 +16,12 @@ import com.xshiwu.model.entity.Post;
 import com.xshiwu.model.entity.User;
 import com.xshiwu.model.vo.PostVO;
 import com.xshiwu.service.PostService;
-import com.xshiwu.service.UserService;
+
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+
+import com.xshiwu.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -110,7 +110,6 @@ public class PostController {
      * @return
      */
     @PostMapping("/update")
-    @AuthCheck(mustRole = UserConstant.ADMIN_ROLE)
     public BaseResponse<Boolean> updatePost(@RequestBody PostUpdateRequest postUpdateRequest) {
         if (postUpdateRequest == null || postUpdateRequest.getId() <= 0) {
             throw new BusinessException(ErrorCode.PARAMS_ERROR);

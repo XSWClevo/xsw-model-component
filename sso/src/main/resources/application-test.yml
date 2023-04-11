@@ -1,0 +1,7 @@
+spring:
+  # Elasticsearch 配置
+  # todo 需替换配置
+  elasticsearch:
+    uris: http://localhost:9200
+    username:
+    password:
