@@ -10,7 +10,7 @@
 
     <parent>
         <groupId>com.xshiwu</groupId>
-        <artifactId>xsw-model-component</artifactId>
+        <artifactId>xsw-module-component</artifactId>
         <version>${revision}</version>
     </parent>
     <properties>
