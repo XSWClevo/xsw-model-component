@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="search-module" />
+        <module name="procurement-module" />
         <module name="sso" />
         <module name="common-module" />
       </profile>
@@ -16,6 +17,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common-module" options="-parameters" />
+      <module name="procurement-module" options="-parameters" />
       <module name="search-module" options="-parameters" />
       <module name="sso" options="-parameters" />
       <module name="xsw-model-component" options="-parameters" />

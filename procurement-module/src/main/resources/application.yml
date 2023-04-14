@@ -1,0 +1,5 @@
+server:
+  address: 8200
+spring:
+  application:
+    name: procurement-module

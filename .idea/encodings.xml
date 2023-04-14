@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/common-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/common-module/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/procurement-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/search-module/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/search-module/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/sso/src/main/java" charset="UTF-8" />

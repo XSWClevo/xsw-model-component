@@ -19,6 +19,7 @@
         <module>search-module</module>
         <module>common-module</module>
         <module>sso</module>
+        <module>procurement-module</module>
     </modules>
 
     <properties>
