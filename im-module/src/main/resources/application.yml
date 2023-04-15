@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    nacos:
+      config:
+        enabled: false
+        refresh-enabled: false
+      discovery:
+        enabled: false
+        instance-enabled: false

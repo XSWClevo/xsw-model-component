@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/sso/pom.xml" />
         <option value="$PROJECT_DIR$/common-module/pom.xml" />
         <option value="$PROJECT_DIR$/procurement-module/pom.xml" />
+        <option value="$PROJECT_DIR$/im-module/pom.xml" />
       </list>
     </option>
   </component>

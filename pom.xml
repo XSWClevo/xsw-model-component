@@ -20,6 +20,7 @@
         <module>common-module</module>
         <module>sso</module>
         <module>procurement-module</module>
+        <module>im-module</module>
     </modules>
 
     <properties>
