@@ -14,13 +14,20 @@ import com.xshiwu.model.enums.UserRoleEnum;
 import com.xshiwu.model.vo.LoginUserVO;
 import com.xshiwu.model.vo.UserVO;
 import com.xshiwu.service.UserService;
+import com.xshiwu.utils.JwtUtils;
+import com.xshiwu.utils.RedisUtils;
 import com.xshiwu.utils.SqlUtils;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -31,7 +38,6 @@ import static com.xshiwu.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
  * 用户服务实现
- *
  */
 @Service
 @Slf4j
@@ -40,7 +46,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 盐值，混淆密码
      */
-    private static final String SALT = "yupi";
+    private static final String SALT = "xsw";
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Override
     public long userRegister(String userAccount, String userPassword, String checkPassword) {
@@ -105,8 +114,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
             throw new BusinessException(ErrorCode.PARAMS_ERROR, "用户不存在或密码错误");
         }
         // 3. 记录用户的登录态
-        request.getSession().setAttribute(USER_LOGIN_STATE, user);
-        return this.getLoginUserVO(user);
+        // request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        return getTokenTheLoginUserVO(request, user);
+    }
+
+    /**
+     * 将User对象转换成前段的LoginUserVO对象并将token添加到Redis
+     */
+    private LoginUserVO getTokenTheLoginUserVO(HttpServletRequest request, User user) {
+        String token = JwtUtils.getJwtToken(String.valueOf(user.getId()), user.getUserName());
+        // authorized:userId ：token信息
+        redisUtils.set("authorized:" + user.getId(), token, 3600);
+        LoginUserVO loginUserVO = this.getLoginUserVO(user);
+        loginUserVO.setToken(token);
+        request.getHeader("token");
+        return loginUserVO;
     }
 
     @Override
@@ -136,8 +158,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
                 }
             }
             // 记录用户的登录态
-            request.getSession().setAttribute(USER_LOGIN_STATE, user);
-            return getLoginUserVO(user);
+            // request.getSession().setAttribute(USER_LOGIN_STATE, user);
+            return getTokenTheLoginUserVO(request, user);
         }
     }
 
@@ -149,19 +171,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User getLoginUser(HttpServletRequest request) {
-        // 先判断是否已登录
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
-        User currentUser = (User) userObj;
-        if (currentUser == null || currentUser.getId() == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
-        }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
-        long userId = currentUser.getId();
-        currentUser = this.getById(userId);
-        if (currentUser == null) {
-            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
-        }
-        return currentUser;
+        return getLoginUserPermitNull(request);
     }
 
     /**
@@ -172,15 +182,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User getLoginUserPermitNull(HttpServletRequest request) {
-        // 先判断是否已登录
-        Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
-        User currentUser = (User) userObj;
-        if (currentUser == null || currentUser.getId() == null) {
-            return null;
+        boolean checkToken = JwtUtils.checkToken(request);
+        if (!checkToken) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
         }
-        // 从数据库查询（追求性能的话可以注释，直接走缓存）
-        long userId = currentUser.getId();
-        return this.getById(userId);
+        String userIdString = JwtUtils.getUserIdByJwtToken(request);
+        long userId = Long.parseLong(userIdString);
+        User user = this.getById(userId);
+        if (user == null) {
+            throw new BusinessException(ErrorCode.NOT_LOGIN_ERROR);
+        }
+        return user;
+
+        // 先判断是否已登录
+        // Object userObj = request.getSession().getAttribute(USER_LOGIN_STATE);
+        // User currentUser = (User) userObj;
+        // if (currentUser == null || currentUser.getId() == null) {
+        //     return null;
+        // }
+        // // 从数据库查询（追求性能的话可以注释，直接走缓存）
+        // long userId = currentUser.getId();
+        // return this.getById(userId);
     }
 
     /**

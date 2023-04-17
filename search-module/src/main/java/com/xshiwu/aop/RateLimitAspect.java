@@ -38,6 +38,9 @@ public class RateLimitAspect {
     RedisTemplate<String, Object> redisTemplate;
 
     @Autowired
+    private RedisUtils redisUtils;;
+
+    @Autowired
     RedisScript<Long> redisScript; //实现类为DefaultRedisScript<Long> limitScript()
 
     @Pointcut("@annotation(com.xshiwu.annotation.RateLimiter)")
@@ -61,7 +64,7 @@ public class RateLimitAspect {
             // 记录次IP、记作黑名单IP
             String ipAddress = IPv4Utils.getIpAddress(IPv4Utils.anonymityAddressToLocal(rateKey));
             long expirationTime = 60;
-            RedisUtils.set(RedisKeyConstant.BAN_IP_PREFIX + ipAddress, ipAddress, expirationTime);
+            redisUtils.set(RedisKeyConstant.BAN_IP_PREFIX + ipAddress, ipAddress, expirationTime);
             throw new BusinessException(ErrorCode.OPERATION_ERROR, String.format("IP已被封禁，请%d分钟后尝试", expirationTime / 60));
         }
         logger.info("一段时间内允许的请求次数:{},当前请求次数:{},缓存的key为:{}", count, current, rateKey);
@@ -77,7 +80,7 @@ public class RateLimitAspect {
         if (rateLimiter.limitType() == LimitType.IP) {//如果参数类型为IP
             //获取客户端ip
             String clientIP = ServletUtil.getClientIP(((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest());
-            Object ipAddress = RedisUtils.get(RedisKeyConstant.BAN_IP_PREFIX + IPv4Utils.anonymityAddressToLocal(clientIP));
+            Object ipAddress = redisUtils.get(RedisKeyConstant.BAN_IP_PREFIX + IPv4Utils.anonymityAddressToLocal(clientIP));
             if (ObjectUtil.isNotEmpty(ipAddress)) {
                 throw new BusinessException(ErrorCode.IP_BAN_ERROR);
             }

@@ -2,10 +2,13 @@ package com.xshiwu.component;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import com.alibaba.fastjson.JSON;
+import com.xshiwu.utils.RedisUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
@@ -17,7 +20,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 @ServerEndpoint(value = "/websocket/{userId}")
 @Component
 public class WebSocket {
+
     private static final Logger logger = LogManager.getLogger(WebSocket.class);
+
+    @Resource
+    private RedisUtils redisUtils;
 
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的
