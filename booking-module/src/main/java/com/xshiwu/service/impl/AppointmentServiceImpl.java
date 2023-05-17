@@ -48,5 +48,8 @@ public class AppointmentServiceImpl extends ServiceImpl<AppointmentMapper, Appoi
         appointment.setUpdatedAt(new Date());
 
         this.baseMapper.insert(appointment);
+
+        // TODO 插入预约人ID与被预约人ID信息到关联表
+
     }
 }
