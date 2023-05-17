@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xshiwu.mapper.AppointmentMapper">
+
+    <resultMap id="appointmentResultMap" type="com.xshiwu.pojo.entity.Appointment">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="serviceTypeId" column="service_type_id"/>
+        <result property="locationId" column="location_id"/>
+        <result property="date" column="date"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <result property="status" column="status"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <sql id="Base_Appointment_Column_List">
+        id, user_id, service_type_id, location_id,
+        date, start_time, end_time, status, created_at, updated_at
+    </sql>
+
+</mapper>

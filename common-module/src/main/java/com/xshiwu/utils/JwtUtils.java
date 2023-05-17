@@ -1,11 +1,11 @@
 package com.xshiwu.utils;
 
 
+import cn.hutool.core.util.StrUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -44,7 +44,7 @@ public class JwtUtils {
      * @return
      */
     public static boolean checkToken(String jwtToken) {
-        if (StringUtils.isEmpty(jwtToken)) {
+        if (StrUtil.isEmpty(jwtToken)) {
             return false;
         }
         try {
@@ -69,7 +69,11 @@ public class JwtUtils {
      */
     public static String getUserIdByJwtToken(HttpServletRequest request) {
         String jwtToken = request.getHeader("token");
-        if (StringUtils.isEmpty(jwtToken)) return "";
+        return parseToken(jwtToken);
+    }
+
+    public static String parseToken(String jwtToken) {
+        if (StrUtil.isEmpty(jwtToken)) return "";
         Jws<Claims> claimsJws = Jwts.parser().setSigningKey(APP_SECRET).parseClaimsJws(jwtToken);
         Claims claims = claimsJws.getBody();
         return (String) claims.get("id");

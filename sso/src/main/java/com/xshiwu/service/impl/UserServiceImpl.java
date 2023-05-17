@@ -128,6 +128,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         LoginUserVO loginUserVO = this.getLoginUserVO(user);
         loginUserVO.setToken(token);
         request.getHeader("token");
+        request.setAttribute("token", token);
         return loginUserVO;
     }
 

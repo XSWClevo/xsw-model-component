@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="im-module" />
+        <module name="booking-module" />
         <module name="search-module" />
         <module name="procurement-module" />
         <module name="sso" />
@@ -17,6 +18,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="booking-module" options="-parameters" />
       <module name="common-module" options="-parameters" />
       <module name="im-module" options="-parameters" />
       <module name="procurement-module" options="-parameters" />
