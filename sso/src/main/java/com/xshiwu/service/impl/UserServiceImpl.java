@@ -17,18 +17,15 @@ import com.xshiwu.service.UserService;
 import com.xshiwu.utils.JwtUtils;
 import com.xshiwu.utils.RedisUtils;
 import com.xshiwu.utils.SqlUtils;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.bean.WxOAuth2UserInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import redis.clients.jedis.Jedis;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +45,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     private static final String SALT = "xsw";
 
-    @Autowired
+    @Resource
     private RedisUtils redisUtils;
 
     @Override
@@ -124,10 +121,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private LoginUserVO getTokenTheLoginUserVO(HttpServletRequest request, User user) {
         String token = JwtUtils.getJwtToken(String.valueOf(user.getId()), user.getUserName());
         // authorized:userId ：token信息
-        redisUtils.set("authorized:" + user.getId(), token, 3600);
+        redisUtils.set(CommonConstant.AUTHORIZED_TOKEN + user.getId(), token, 3600);
+        redisUtils.set(CommonConstant.AUTHORIZED_USER + user.getId(), user, 3600);
         LoginUserVO loginUserVO = this.getLoginUserVO(user);
         loginUserVO.setToken(token);
-        request.getHeader("token");
         request.setAttribute("token", token);
         return loginUserVO;
     }

@@ -83,3 +83,11 @@ INSERT INTO `location` (`name`, `address`) VALUES
 ('朝阳区修车厂', '北京市朝阳区xx路xx号'),
 ('海淀区修车厂', '北京市海淀区xx路xx号');
 
+CREATE TABLE `appointment_user` (
+                                    `appointment_id` int(11) NOT NULL,
+                                    `user_id` int(11) NOT NULL,
+                                    `start_time` int(11) NOT NULL,
+                                    `end_time` int(11) NOT NULL,
+                                    `appointment_type` tinyint(4) NOT NULL,
+                                    PRIMARY KEY (`appointment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

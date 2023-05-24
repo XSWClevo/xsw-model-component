@@ -15,5 +15,15 @@ public interface CommonConstant {
      * 降序
      */
     String SORT_ORDER_DESC = " descend";
-    
+
+    /**
+     * Redis缓存用户前缀
+     */
+    String AUTHORIZED_USER = "authorized:user:";
+
+    /**
+     * Redis缓存用户前缀
+     */
+    String AUTHORIZED_TOKEN = "authorized:token:";
+
 }

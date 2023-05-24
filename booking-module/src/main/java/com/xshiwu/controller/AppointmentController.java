@@ -22,7 +22,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @GetMapping("/hello")
-    public String asd() {
+    public String hello() {
         return "appointment";
     }
 
